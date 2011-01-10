@@ -1,8 +1,12 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <stdarg.h>
 #include <string.h>
 #include <lua.h>
 #include <lauxlib.h>
 #include <lualib.h>
+
+#include "graphics.h"
 
 int main(void) {
 	char buff[256];
@@ -10,13 +14,12 @@ int main(void) {
 	lua_State *L = lua_open();
 	luaL_openlibs(L);
 
-	while (fgets(buff, sizeof(buff), stdin) != NULL) {
-		error = luaL_loadbuffer(L, buff, strlen(buff), "line") || lua_pcall(L, 0, 0, 0);
-		if (error) {
-			fprintf(stderr, "%s", lua_tostring(L, -1));
-			lua_pop(L, 1);
-		}
-	}
+	graphics_register(L);
+
+	if (luaL_loadfile(L, "startup.lua") == 0)
+		lua_call(L, 0, 0);
+	else
+		fprintf(stderr, "Unable to load startup.lua");
 
 	lua_close(L);
 	return 0;

@@ -1,12 +1,16 @@
 
 CC=gcc
 CFLAGS=-I/usr/include/lua5.1
-LIBS=-llua5.1
-OBJ=lua.o
+LIBS=-llua5.1 -lSDL -l SDL_image
+OBJ=graphics.o lua.o
+DEPS=graphics.h
 
-PROG=lua
+PROG=game
 
-lua: $(OBJ)
+%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+game: $(OBJ)
 	$(CC) -o $(PROG) $^ $(CLFAGS) $(LIBS)
 
 .PHONY: clean
