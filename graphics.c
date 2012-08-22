@@ -1,8 +1,8 @@
 #include "graphics.h"
 
-SDL_Surface* screen = NULL;
+SDL_Surface *screen = NULL;
 
-int graphics_init(lua_State* L) {
+int graphics_init(lua_State *L) {
 	SDL_Init(SDL_INIT_EVERYTHING);
 
 	int width = luaL_checkint(L, 1);
@@ -14,10 +14,10 @@ int graphics_init(lua_State* L) {
 	return 0;
 }
 
-int graphics_loadImage(lua_State* L) {
-	char* filename = luaL_checkstring(L, 1);
-	SDL_Surface* loadedImage = NULL;
-	SDL_Surface* optimizedImage = NULL;
+int graphics_loadImage(lua_State *L) {
+	const char *filename = luaL_checkstring(L, 1);
+	SDL_Surface *loadedImage = NULL;
+	SDL_Surface *optimizedImage = NULL;
 
 	loadedImage = IMG_Load(filename);
 
@@ -34,12 +34,12 @@ int graphics_drawImage(lua_State *L) {
 	SDL_BlitSurface(image, NULL, screen, NULL);
 }
 
-int graphics_show(lua_State* L) {
+int graphics_show(lua_State *L) {
 	SDL_Flip(screen); 
 	return 0;
 }
 
-void graphics_register(lua_State* L) {
+void graphics_register(lua_State *L) {
 	luaL_Reg to_register[] = {
 		{"init", graphics_init},
 		{"loadImage", graphics_loadImage},
