@@ -8,9 +8,7 @@
 
 #include "graphics.h"
 
-int main(void) {
-	char buff[256];
-	int error;
+int main(int argc, char** argv) {
 	lua_State *L = lua_open();
 	luaL_openlibs(L);
 
